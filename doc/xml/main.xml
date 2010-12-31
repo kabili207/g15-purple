@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.5.4">
+  <compounddef id="main" kind="page">
+    <compoundname>main</compoundname>
+    <title></title>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Kabili &lt; <ulink url="mailto:kabili207@gmail.com">kabili207@gmail.com</ulink> </para></simplesect>
+<simplesect kind="version"><para>0.6</para></simplesect>
+</para><sect1 id="main_1DESCRIPTION">
+<title>DESCRIPTION</title>
+<para>A plugin which interfaces the Logitech GamePanel LCD with Pidgin. These LCDs are currently found in the G15 Keyboards and G13 Gamepads.</para><para>The pidgin-libnotify plugin was used as a base for the interface with libpurple. pidgin-libnotify is available at <ulink url="http://gaim-libnotify.sourceforge.net/">http://gaim-libnotify.sourceforge.net/</ulink></para></sect1>
+<sect1 id="main_1LICENSE">
+<title>LICENSE</title>
+<para>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</para><para>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details at <ulink url="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</ulink> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

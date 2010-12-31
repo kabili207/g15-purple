@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.5.4">
+  <compounddef id="bug" kind="page">
+    <compoundname>bug</compoundname>
+    <title>Bug List</title>
+    <detaileddescription>
+<para><anchor id="bug_1_bug000001"/> <variablelist>
+<varlistentry><term>Member <ref refid="g15purple_8c_1dfac55f0b0ed6786700053a551c7d703" kindref="member">plugin_unload</ref>  </term></varlistentry>
+<listitem><para>Attempting to free() canvas causes libpurple to crash. Valgrind reports this as an attempt to free() canvas twice. Unsure if this means libpurple or g15daemon does this automatically.</para><para></para></listitem>
+</variablelist>
+</para>    </detaileddescription>
+  </compounddef>
+</doxygen>

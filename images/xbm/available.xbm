@@ -1,0 +1,4 @@
+#define available_width 6
+#define available_height 6
+static unsigned char available_bits[] = {
+   0x0c, 0x12, 0x21, 0x21, 0x12, 0x0c };
