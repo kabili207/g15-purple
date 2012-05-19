@@ -11,7 +11,8 @@ AR = ar
 LD = g++
 WINDRES = windres
 
-INC =  -I/usr/lib/glib-2.0/include -I/usr/include/glib-2.0 -I/usr/include/libpurple
+INC1 =  -I/usr/lib/glib-2.0/include -I/usr/include/glib-2.0 -I/usr/include/libpurple
+INC =  $(INC1) -I/usr/local/lib/glib-2.0/include -I/usr/local/include/glib-2.0 -I/usr/local/include/libpurple
 CFLAGS =  -Wall -fPIC
 RESINC = 
 LIBDIR = 

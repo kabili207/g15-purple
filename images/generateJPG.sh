@@ -1,5 +1,5 @@
 #!/bin/bash
-
+test -d jpg || mkdir -p jpg
 for a in xbm/*.xbm
 do
    convert xbm/${a#xbm} jpg/${a//xbm}jpg
