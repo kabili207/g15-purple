@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="src/g15purple.c" open="1" top="1" tabpos="1">
-		<Cursor position="7950" topLine="236" />
+		<Cursor position="4502" topLine="255" />
 	</File>
 	<File name="src/images.h" open="1" top="0" tabpos="2">
 		<Cursor position="4918" topLine="131" />

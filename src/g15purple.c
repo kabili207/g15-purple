@@ -1,7 +1,7 @@
 /**
  * @mainpage
  * @author  Kabili < kabili207@gmail.com
- * @version 0.6
+ * @version 0.7
  *
  * @section DESCRIPTION
  *
@@ -62,14 +62,18 @@
 #  endif
 #endif
 
-#define PLUGIN_ID "core-kabili207-g15purple"
-#define VERSION "0.6"
+#define PLUGIN_ID    "core-kabili207-g15purple"
+#define PLUGIN_NAME  "G15Purple"
+#define VERSION      "0.7"
+#define SUMMARY      "Displays information on a G15 lcd"
+#define DESCRIPTION  "G15 plugin for libpurple"
+#define AUTHOR       "Andrew Nagle <kabili207@gmail.com>"
+#define WEBSITE      "http://www.zyrenth.com"
 
 #define MIN_WINDOWS 1
 #define MAX_WINDOWS 3
 
 static GHashTable *buddy_hash;
-static PurplePlugin *g15purple_plug = NULL;
 
 
 g15canvas *canvas;
@@ -135,13 +139,17 @@ void get_time(char **t) {
 	switch(choice) {
 		case 0:
 			break;
-		case 1: strftime(str, 100, "%H:%M:%S", ptr);
+		case 1:
+			strftime(str, 100, "%H:%M:%S", ptr);
 			break;
-		case 2: strftime(str, 100, "%H:%M:%S %p", ptr);
+		case 2:
+			strftime(str, 100, "%H:%M:%S %p", ptr);
 			break;
-		case 3: strftime(str, 100, "%I:%M:%S", ptr);
+		case 3:
+			strftime(str, 100, "%I:%M:%S", ptr);
 			break;
-		case 4: strftime(str, 100, "%I:%M:%S %p", ptr);
+		case 4:
+			strftime(str, 100, "%I:%M:%S %p", ptr);
 			break;
 		default:
 			break;
@@ -158,9 +166,10 @@ void set_protocol (PurpleBuddy *buddy)
 {
 	char *proto = buddy->account->protocol_id;
 
+		// Built in protocols
 		if (strcmp(proto,"prpl-aim") == 0) proto_icon = aim;
 		else if (strcmp(proto,"prpl-bonjour") == 0) proto_icon = bonjour;
-		else if (strcmp(proto,"prpl-gg") == 0) proto_icon =gadu;
+		else if (strcmp(proto,"prpl-gg") == 0) proto_icon = gadu;
 		else if (strcmp(proto,"prpl-icq") == 0) proto_icon = icq;
 		else if (strcmp(proto,"prpl-irc") == 0) proto_icon = irc;
 		else if (strcmp(proto,"prpl-jabber") == 0) proto_icon = jabber;
@@ -173,6 +182,12 @@ void set_protocol (PurpleBuddy *buddy)
 		else if (strcmp(proto,"prpl-simple") == 0) proto_icon = simple;
 		else if (strcmp(proto,"prpl-yahoo") == 0) proto_icon = yahoo;
 		else if (strcmp(proto,"prpl-zephyr") == 0) proto_icon = zephyr;
+	
+		// Other protocols
+		else if (strcmp(proto,"prpl-bigbrownchunx-facebookim") == 0) proto_icon = facebook;
+		else if (strcmp(proto,"prpl-bigbrownchunx-skype") == 0) proto_icon = skype;
+		
+		// Everything else
 		else proto_icon = unknown;
 
 
@@ -208,23 +223,21 @@ void draw_messageWindow(g15canvas *canvas)
 			break;
 			
 	}
+	int textLen;
+	int titleLoc;
+	int totalMaxLen = maxLength * maxNum;
 
 	g15r_clearScreen(canvas, G15_COLOR_WHITE);
 	char *title;
 	char *text;
 	char *text1,*text2,*text3,*text4, *text5;
-	char buff[maxLength * maxNum];
+	char buff[totalMaxLen];
 	char buff1[maxLength + 1],buff2[maxLength + 1],buff3[maxLength + 1],buff4[maxLength + 1],buff5[maxLength + 1];
-	char num[5];
-	int textLen;
-	int titleLoc;
-
 	title = g15title;
 	text = g15message;
 	textLen = strlen(text);
-	sprintf(num,"%d",textLen);
-
-
+	textLen = textLen < totalMaxLen ? textLen : totalMaxLen;
+	
 	memset(buff, 0, sizeof(buff));
 	memset(buff1, 0, sizeof(buff1));
 	memset(buff2, 0, sizeof(buff2));
@@ -269,7 +282,6 @@ void draw_messageWindow(g15canvas *canvas)
 	g15r_renderString (canvas, (unsigned char*)text3, 0, textSize, 0, 22);
 	g15r_renderString (canvas, (unsigned char*)text4, 0, textSize, 0, 29);
 	g15r_renderString (canvas, (unsigned char*)text5, 0, textSize, 0, 36);
-
 
 }
 
@@ -382,10 +394,10 @@ notify_msg_sent (PurpleAccount *account,
 	if(purple_prefs_get_bool("/plugins/core/g15purple/text_size")) {
 
 		textSize = G15_TEXT_SMALL;
-		title = truncate_escape_string (best_name (buddy), 24);
+		title = truncate_escape_string(best_name(buddy), 24);
 	} else {
 		textSize = G15_TEXT_MED;
-		title = truncate_escape_string (best_name (buddy), 17);
+		title = truncate_escape_string(best_name(buddy), 17);
 	}
 
 	char *body = purple_markup_strip_html (message);
@@ -504,12 +516,8 @@ plugin_unload (PurplePlugin *plugin)
 
 	g_hash_table_destroy (buddy_hash);
 
-
-
-
 	//free(canvas);
 	g15_close_screen(screen);
-
 
 	return TRUE;
 }
@@ -543,12 +551,12 @@ static PurplePluginInfo info = {
 	PURPLE_PRIORITY_DEFAULT,    /* priority */
 
 	PLUGIN_ID,                  /* id */
-	"G15Purple",                /* name */
+	PLUGIN_NAME,                /* name */
 	VERSION,                    /* version */
-	"Displays information on a G15 lcd",             /* summary */
-	"G15 plugin for libpurple",                /* description */
-	"Andrew Nagle <kabili207@gmail.com>",              /* author */
-	"http://www.zyrenth.com",            /* homepage */
+	SUMMARY,                    /* summary */
+	DESCRIPTION,                /* description */
+	AUTHOR,                     /* author */
+	WEBSITE,                    /* homepage */
 
 	plugin_load,                /* load */
 	plugin_unload,              /* unload */
@@ -556,8 +564,8 @@ static PurplePluginInfo info = {
 
 	NULL,                       /* ui info */
 	NULL,                       /* extra info */
-	&prefs_info,                       /* prefs info */
-	NULL,             /* actions */
+	&prefs_info,                /* prefs info */
+	NULL,                       /* actions */
 	NULL,                       /* reserved */
 	NULL,                       /* reserved */
 	NULL,                       /* reserved */
