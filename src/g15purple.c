@@ -125,28 +125,28 @@ get_plugin_pref_frame(PurplePlugin *plugin) {
  */
 void get_time(char **t) {
 
-    struct tm *ptr;
-    time_t lt;
-    static char str[200];
+	struct tm *ptr;
+	time_t lt;
+	static char str[200];
 
-    lt = time(NULL);
-    ptr = localtime(&lt);
-    int choice = purple_prefs_get_int("/plugins/core/g15purple/time_choice");
-    switch(choice) {
-        case 0:
-            break;
-        case 1: strftime(str, 100, "%H:%M:%S", ptr);
-            break;
-        case 2: strftime(str, 100, "%H:%M:%S %p", ptr);
-            break;
-        case 3: strftime(str, 100, "%I:%M:%S", ptr);
-            break;
-        case 4: strftime(str, 100, "%I:%M:%S %p", ptr);
-            break;
-        default:
-            break;
-    }
-    *t = str;
+	lt = time(NULL);
+	ptr = localtime(&lt);
+	int choice = purple_prefs_get_int("/plugins/core/g15purple/time_choice");
+	switch(choice) {
+		case 0:
+			break;
+		case 1: strftime(str, 100, "%H:%M:%S", ptr);
+			break;
+		case 2: strftime(str, 100, "%H:%M:%S %p", ptr);
+			break;
+		case 3: strftime(str, 100, "%I:%M:%S", ptr);
+			break;
+		case 4: strftime(str, 100, "%I:%M:%S %p", ptr);
+			break;
+		default:
+			break;
+	}
+	*t = str;
 }
 
 /**
@@ -156,24 +156,24 @@ void get_time(char **t) {
  */
 void set_protocol (PurpleBuddy *buddy)
 {
-    char *proto = buddy->account->protocol_id;
+	char *proto = buddy->account->protocol_id;
 
-        if (strcmp(proto,"prpl-aim") == 0) proto_icon = aim;
-        else if (strcmp(proto,"prpl-bonjour") == 0) proto_icon = bonjour;
-        else if (strcmp(proto,"prpl-gg") == 0) proto_icon =gadu;
-        else if (strcmp(proto,"prpl-icq") == 0) proto_icon = icq;
-        else if (strcmp(proto,"prpl-irc") == 0) proto_icon = irc;
-        else if (strcmp(proto,"prpl-jabber") == 0) proto_icon = jabber;
-        else if (strcmp(proto,"prpl-meanwhile") == 0) proto_icon = meanwhile;
-        else if (strcmp(proto,"prpl-msn") == 0) proto_icon = msn;
-        else if (strcmp(proto,"prpl-myspace") == 0) proto_icon = myspace;
-        else if (strcmp(proto,"prpl-novell") == 0) proto_icon = novell;
-        else if (strcmp(proto,"prpl-qq") == 0) proto_icon = qq;
-        else if (strcmp(proto,"prpl-silc") == 0) proto_icon = silc;
-        else if (strcmp(proto,"prpl-simple") == 0) proto_icon = simple;
-        else if (strcmp(proto,"prpl-yahoo") == 0) proto_icon = yahoo;
-        else if (strcmp(proto,"prpl-zephyr") == 0) proto_icon = zephyr;
-        else proto_icon = unknown;
+		if (strcmp(proto,"prpl-aim") == 0) proto_icon = aim;
+		else if (strcmp(proto,"prpl-bonjour") == 0) proto_icon = bonjour;
+		else if (strcmp(proto,"prpl-gg") == 0) proto_icon =gadu;
+		else if (strcmp(proto,"prpl-icq") == 0) proto_icon = icq;
+		else if (strcmp(proto,"prpl-irc") == 0) proto_icon = irc;
+		else if (strcmp(proto,"prpl-jabber") == 0) proto_icon = jabber;
+		else if (strcmp(proto,"prpl-meanwhile") == 0) proto_icon = meanwhile;
+		else if (strcmp(proto,"prpl-msn") == 0) proto_icon = msn;
+		else if (strcmp(proto,"prpl-myspace") == 0) proto_icon = myspace;
+		else if (strcmp(proto,"prpl-novell") == 0) proto_icon = novell;
+		else if (strcmp(proto,"prpl-qq") == 0) proto_icon = qq;
+		else if (strcmp(proto,"prpl-silc") == 0) proto_icon = silc;
+		else if (strcmp(proto,"prpl-simple") == 0) proto_icon = simple;
+		else if (strcmp(proto,"prpl-yahoo") == 0) proto_icon = yahoo;
+		else if (strcmp(proto,"prpl-zephyr") == 0) proto_icon = zephyr;
+		else proto_icon = unknown;
 
 
 }
@@ -189,82 +189,86 @@ void set_protocol (PurpleBuddy *buddy)
  */
 void draw_messageWindow(g15canvas *canvas)
 {
-    int maxLength;
-    int maxNum;
+	int maxLength;
+	int maxNum;
 
-    if (textSize == G15_TEXT_SMALL) {
-        maxLength = 40;
-        maxNum = 5;
-    } else if (textSize == G15_TEXT_MED) {
-        maxLength = 32;
-        maxNum = 5;
-    } else if (textSize == G15_TEXT_LARGE) {
-        maxLength = 20;
-        maxNum = 5;
-    } else {
+	switch(textSize) {
+		case G15_TEXT_SMALL:
+			maxLength = 40;
+			maxNum = 5;
+			break;
+		case G15_TEXT_MED:
+		default:
+			maxLength = 32;
+			maxNum = 5;
+			break;
+		case G15_TEXT_LARGE:
+			maxLength = 20;
+			maxNum = 5;
+			break;
+			
+	}
 
-    }
+	g15r_clearScreen(canvas, G15_COLOR_WHITE);
+	char *title;
+	char *text;
+	char *text1,*text2,*text3,*text4, *text5;
+	char buff[maxLength * maxNum];
+	char buff1[maxLength + 1],buff2[maxLength + 1],buff3[maxLength + 1],buff4[maxLength + 1],buff5[maxLength + 1];
+	char num[5];
+	int textLen;
+	int titleLoc;
 
-    g15r_clearScreen(canvas, G15_COLOR_WHITE);
-    char *title;
-    char *text;
-    char *text1,*text2,*text3,*text4, *text5;
-    char *buff[maxLength * maxNum];
-    char *buff1[maxLength + 1],*buff2[maxLength + 1],*buff3[maxLength + 1],*buff4[maxLength + 1],*buff5[maxLength + 1];
-    char *num[5];
-    int textLen;
-    int titleLoc;
-
-    title = g15title;
-    text = g15message;
-    textLen = strlen(text);
-    sprintf(num,"%d",textLen);
-
-
-    memset(buff, 0, sizeof(buff));
-    memset(buff1, 0, sizeof(buff1));
-    memset(buff2, 0, sizeof(buff2));
-    memset(buff3, 0, sizeof(buff3));
-    memset(buff4, 0, sizeof(buff4));
-
-    strncpy(buff, text,textLen);
-    text = buff;
-
-    strncpy(buff1,text,maxLength);
-    strncpy(buff2,text+maxLength,maxLength);
-    strncpy(buff3,text+maxLength*2,maxLength);
-    strncpy(buff4,text+maxLength*3,maxLength);
-    strncpy(buff5,text+maxLength*4,maxLength);
-
-    text1= buff1;
-    text2= buff2;
-    text3= buff3;
-    text4= buff4;
-    text5= buff5;
+	title = g15title;
+	text = g15message;
+	textLen = strlen(text);
+	sprintf(num,"%d",textLen);
 
 
-    if(purple_prefs_get_bool("/plugins/core/g15purple/proto_icon")) {
-        g15rx_drawXBM(canvas, proto_icon, proto_width, proto_height, 1, 0);
-        titleLoc = 12;
-    } else {
-        titleLoc = 1;
-    }
+	memset(buff, 0, sizeof(buff));
+	memset(buff1, 0, sizeof(buff1));
+	memset(buff2, 0, sizeof(buff2));
+	memset(buff3, 0, sizeof(buff3));
+	memset(buff4, 0, sizeof(buff4));
 
-    if (textSize == G15_TEXT_SMALL){
-        g15r_renderString (canvas, (unsigned char*)title, 0, textSize, titleLoc, 1);
-        g15r_renderString (canvas, (unsigned char*)currTime, 0, textSize, 159-(4*strlen(currTime)), 1);
-    } else {
-        g15r_renderString (canvas, (unsigned char*)title, 0, textSize, titleLoc, 0);
-        g15r_renderString (canvas, (unsigned char*)currTime, 0, textSize, 159-(5*strlen(currTime)), 0);
-    }
+	strncpy(buff, text,textLen);
+	text = buff;
 
-    g15r_pixelReverseFill (canvas, 0, 0, 159, 6, G15_COLOR_WHITE, G15_COLOR_BLACK);
+	strncpy(buff1,text,maxLength);
+	strncpy(buff2,text+maxLength,maxLength);
+	strncpy(buff3,text+maxLength*2,maxLength);
+	strncpy(buff4,text+maxLength*3,maxLength);
+	strncpy(buff5,text+maxLength*4,maxLength);
 
-    g15r_renderString (canvas, (unsigned char*)text1, 0, textSize, 0, 8);
-    g15r_renderString (canvas, (unsigned char*)text2, 0, textSize, 0, 15);
-    g15r_renderString (canvas, (unsigned char*)text3, 0, textSize, 0, 22);
-    g15r_renderString (canvas, (unsigned char*)text4, 0, textSize, 0, 29);
-    g15r_renderString (canvas, (unsigned char*)text5, 0, textSize, 0, 36);
+	text1= buff1;
+	text2= buff2;
+	text3= buff3;
+	text4= buff4;
+	text5= buff5;
+
+
+	if(purple_prefs_get_bool("/plugins/core/g15purple/proto_icon")) {
+		g15rx_drawXBM(canvas, proto_icon, proto_width, proto_height, 1, 0);
+		titleLoc = 12;
+	} else {
+		titleLoc = 1;
+	}
+
+	if (textSize == G15_TEXT_SMALL){
+		g15r_renderString (canvas, (unsigned char*)title, 0, textSize, titleLoc, 1);
+		g15r_renderString (canvas, (unsigned char*)currTime, 0, textSize, 159-(4*strlen(currTime)), 1);
+	} else {
+		g15r_renderString (canvas, (unsigned char*)title, 0, textSize, titleLoc, 0);
+		g15r_renderString (canvas, (unsigned char*)currTime, 0, textSize, 159-(5*strlen(currTime)), 0);
+	}
+
+	g15r_pixelReverseFill (canvas, 0, 0, 159, 6, G15_COLOR_WHITE, G15_COLOR_BLACK);
+
+	g15r_renderString (canvas, (unsigned char*)text1, 0, textSize, 0, 8);
+	g15r_renderString (canvas, (unsigned char*)text2, 0, textSize, 0, 15);
+	g15r_renderString (canvas, (unsigned char*)text3, 0, textSize, 0, 22);
+	g15r_renderString (canvas, (unsigned char*)text4, 0, textSize, 0, 29);
+	g15r_renderString (canvas, (unsigned char*)text5, 0, textSize, 0, 36);
 
 
 }
@@ -277,26 +281,25 @@ void draw_messageWindow(g15canvas *canvas)
  */
 void draw_welcomeScreen(g15canvas * canvas)
 {
-    int verLength;
-    char* ver;
+	char* ver;
 	char* ver1 = "v";
 	char* ver2 = VERSION;
-    ver = (char *)calloc(strlen(ver1) + strlen(ver2) + 1, sizeof(char));
+	ver = (char *)calloc(strlen(ver1) + strlen(ver2) + 1, sizeof(char));
 
-    g15r_clearScreen(canvas, G15_COLOR_WHITE);
+	g15r_clearScreen(canvas, G15_COLOR_WHITE);
 	g15rx_drawXBM(canvas, welcome, g15_res_width, g15_res_height, 0, 0);
 
-    strcat(ver, ver1);
-    strcat(ver, ver2);
+	strcat(ver, ver1);
+	strcat(ver, ver2);
 
 
-    g15r_renderString (canvas, (unsigned char*)ver, 0, G15_TEXT_MED, 159-(5*strlen(ver)), 34);
+	g15r_renderString (canvas, (unsigned char*)ver, 0, G15_TEXT_MED, 159-(5*strlen(ver)), 34);
 
-    free(ver);
+	free(ver);
 
-    canvas->mode_xor = 0;
+	canvas->mode_xor = 0;
 
-    g15_send(screen,(char *)canvas->buffer,G15_BUFFER_LEN);
+	g15_send(screen,(char *)canvas->buffer,G15_BUFFER_LEN);
 
 }
 
@@ -310,11 +313,11 @@ void draw_welcomeScreen(g15canvas * canvas)
 void draw_goodbyeScreen(g15canvas * canvas)
 {
 
-    g15r_clearScreen(canvas, G15_COLOR_WHITE);
+	g15r_clearScreen(canvas, G15_COLOR_WHITE);
 	g15rx_drawXBM(canvas, goodbye, g15_res_width, g15_res_height, 0, 0);
 
-    canvas->mode_xor = 0;
-    g15_send(screen,(char *)canvas->buffer,G15_BUFFER_LEN);
+	canvas->mode_xor = 0;
+	g15_send(screen,(char *)canvas->buffer,G15_BUFFER_LEN);
 
 
 }
@@ -374,35 +377,35 @@ notify_msg_sent (PurpleAccount *account,
 		return;
 	set_protocol(buddy);
 
-    char *title;
+	char *title;
 
-    if(purple_prefs_get_bool("/plugins/core/g15purple/text_size")) {
+	if(purple_prefs_get_bool("/plugins/core/g15purple/text_size")) {
 
-        textSize = G15_TEXT_SMALL;
-        title = truncate_escape_string (best_name (buddy), 24);
-    } else {
-        textSize = G15_TEXT_MED;
-        title = truncate_escape_string (best_name (buddy), 17);
-    }
+		textSize = G15_TEXT_SMALL;
+		title = truncate_escape_string (best_name (buddy), 24);
+	} else {
+		textSize = G15_TEXT_MED;
+		title = truncate_escape_string (best_name (buddy), 17);
+	}
 
 	char *body = purple_markup_strip_html (message);
 
-    g15title = (char*)title;
-    g15message = (char*)body;
-    get_time(&currTime);
+	g15title = (char*)title;
+	g15message = (char*)body;
+	get_time(&currTime);
 
 
 	purple_debug_info (PLUGIN_ID, "g15purple(), new: "
 					 "title: '%s', body: '%s', buddy: '%s'\n",
 					 title, body, best_name(buddy));
 
-    draw_messageWindow(canvas);
+	draw_messageWindow(canvas);
 
-    canvas->mode_xor = 0;
+	canvas->mode_xor = 0;
 
-    g15_send(screen,(char *)canvas->buffer,G15_BUFFER_LEN);
+	g15_send(screen,(char *)canvas->buffer,G15_BUFFER_LEN);
 
-    g_free (title);
+	g_free (title);
 
 }
 
@@ -442,8 +445,8 @@ init_plugin(PurplePlugin *plugin)
 {
 
 	canvas = (g15canvas *) malloc (sizeof (g15canvas));
-    g15title = "        G15 Purple Plugin Loaded        ";
-    g15message = "When a message is received, it will be  shown here. --Kabili";
+	g15title = "        G15 Purple Plugin Loaded        ";
+	g15message = "When a message is received, it will be  shown here. --Kabili";
 
 	purple_prefs_add_none("/plugins/core/g15purple");
 	purple_prefs_add_bool("/plugins/core/g15purple/proto_icon", TRUE);
@@ -460,8 +463,8 @@ plugin_load (PurplePlugin *plugin)
 	buddy_hash = g_hash_table_new (NULL, NULL);
 
 	screen = new_g15_screen(G15_G15RBUF);
-    g15r_initCanvas(canvas);
-    draw_welcomeScreen(canvas);
+	g15r_initCanvas(canvas);
+	draw_welcomeScreen(canvas);
 
 
 
@@ -489,7 +492,7 @@ plugin_unload (PurplePlugin *plugin)
 {
 	void *conv_handle;
 
-    draw_goodbyeScreen(canvas);
+	draw_goodbyeScreen(canvas);
 
 	conv_handle = purple_conversations_get_handle ();
 
@@ -504,8 +507,8 @@ plugin_unload (PurplePlugin *plugin)
 
 
 
-    //free(canvas);
-    g15_close_screen(screen);
+	//free(canvas);
+	g15_close_screen(screen);
 
 
 	return TRUE;
@@ -530,35 +533,35 @@ static PurplePluginUiInfo prefs_info = {
  *
  */
 static PurplePluginInfo info = {
-    PURPLE_PLUGIN_MAGIC,        /* magic number */
-    PURPLE_MAJOR_VERSION,       /* purple major */
-    PURPLE_MINOR_VERSION,       /* purple minor */
-    PURPLE_PLUGIN_STANDARD,     /* plugin type */
-    NULL,                       /* UI requirement */
-    0,                          /* flags */
-    NULL,                       /* dependencies */
-    PURPLE_PRIORITY_DEFAULT,    /* priority */
+	PURPLE_PLUGIN_MAGIC,        /* magic number */
+	PURPLE_MAJOR_VERSION,       /* purple major */
+	PURPLE_MINOR_VERSION,       /* purple minor */
+	PURPLE_PLUGIN_STANDARD,     /* plugin type */
+	NULL,                       /* UI requirement */
+	0,                          /* flags */
+	NULL,                       /* dependencies */
+	PURPLE_PRIORITY_DEFAULT,    /* priority */
 
-    PLUGIN_ID,                  /* id */
-    "G15Purple",                /* name */
-    VERSION,                    /* version */
-    "Displays information on a G15 lcd",             /* summary */
-    "G15 plugin for libpurple",                /* description */
-    "Andrew Nagle <kabili207@gmail.com>",              /* author */
-    "http://zyrenth.homelinux.com",            /* homepage */
+	PLUGIN_ID,                  /* id */
+	"G15Purple",                /* name */
+	VERSION,                    /* version */
+	"Displays information on a G15 lcd",             /* summary */
+	"G15 plugin for libpurple",                /* description */
+	"Andrew Nagle <kabili207@gmail.com>",              /* author */
+	"http://www.zyrenth.com",            /* homepage */
 
-    plugin_load,                /* load */
-    plugin_unload,              /* unload */
-    NULL,                       /* destroy */
+	plugin_load,                /* load */
+	plugin_unload,              /* unload */
+	NULL,                       /* destroy */
 
-    NULL,                       /* ui info */
-    NULL,                       /* extra info */
-    &prefs_info,                       /* prefs info */
-    NULL,             /* actions */
-    NULL,                       /* reserved */
-    NULL,                       /* reserved */
-    NULL,                       /* reserved */
-    NULL                        /* reserved */
+	NULL,                       /* ui info */
+	NULL,                       /* extra info */
+	&prefs_info,                       /* prefs info */
+	NULL,             /* actions */
+	NULL,                       /* reserved */
+	NULL,                       /* reserved */
+	NULL,                       /* reserved */
+	NULL                        /* reserved */
 };
 
 PURPLE_INIT_PLUGIN(g15purple, init_plugin, info)

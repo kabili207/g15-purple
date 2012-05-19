@@ -40,7 +40,7 @@
  * @param pos_y The Y coordinate the top left of the image is to be drawn
  *
  */
-void g15rx_drawXBM(g15canvas *canvas, unsigned char* data, int width, int height ,int pos_x, int pos_y)
+void g15rx_drawXBM(g15canvas* canvas, unsigned char* data, int width, int height, int pos_x, int pos_y)
 {
    int y = 0;
    int z = 0;
