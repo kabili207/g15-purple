@@ -44,6 +44,7 @@
 
 #include <pthread.h>
 #include <plugin.h>
+#include <notify.h>
 #include <version.h>
 #include <debug.h>
 #include <util.h>
@@ -297,8 +298,9 @@ void draw_welcomeScreen(g15canvas * canvas)
 	char* ver1 = "v";
 	char* ver2 = VERSION;
 	ver = (char *)calloc(strlen(ver1) + strlen(ver2) + 1, sizeof(char));
-
+	
 	g15r_clearScreen(canvas, G15_COLOR_WHITE);
+	
 	g15rx_drawXBM(canvas, welcome, g15_res_width, g15_res_height, 0, 0);
 
 	strcat(ver, ver1);
@@ -387,10 +389,12 @@ notify_msg_sent (PurpleAccount *account,
 	PurpleBuddy *buddy = purple_find_buddy (account, sender);
 	if (!buddy)
 		return;
+purple_debug_info (PLUGIN_ID, "g15purple(), notify: 1\n");
 	set_protocol(buddy);
 
 	char *title;
 
+purple_debug_info (PLUGIN_ID, "g15purple(), notify: 2\n");
 	if(purple_prefs_get_bool("/plugins/core/g15purple/text_size")) {
 
 		textSize = G15_TEXT_SMALL;
@@ -399,12 +403,15 @@ notify_msg_sent (PurpleAccount *account,
 		textSize = G15_TEXT_MED;
 		title = truncate_escape_string(best_name(buddy), 17);
 	}
+purple_debug_info (PLUGIN_ID, "g15purple(), notify: 3\n");
 
 	char *body = purple_markup_strip_html (message);
+purple_debug_info (PLUGIN_ID, "g15purple(), notify: 4\n");
 
 	g15title = (char*)title;
 	g15message = (char*)body;
 	get_time(&currTime);
+purple_debug_info (PLUGIN_ID, "g15purple(), notify: 5\n");
 
 
 	purple_debug_info (PLUGIN_ID, "g15purple(), new: "
@@ -412,6 +419,7 @@ notify_msg_sent (PurpleAccount *account,
 					 title, body, best_name(buddy));
 
 	draw_messageWindow(canvas);
+purple_debug_info (PLUGIN_ID, "g15purple(), notify: 6\n");
 
 	canvas->mode_xor = 0;
 
@@ -472,13 +480,20 @@ plugin_load (PurplePlugin *plugin)
 	void *conv_handle;
 
 	conv_handle = purple_conversations_get_handle ();
-	buddy_hash = g_hash_table_new (NULL, NULL);
 
 	screen = new_g15_screen(G15_G15RBUF);
+	if(screen < 0) {
+		purple_debug_info (PLUGIN_ID, "g15purple(), load: Failed to initialize screen. Is the g15daemon running?\n");
+		purple_notify_error(plugin, "Err not", "Err notee",
+			"Failed to initialize screen. Is the g15daemon running?");
+		return FALSE;
+	}
+	purple_debug_info (PLUGIN_ID, "g15purple(), load: Initializing canvas?\n");
+		
 	g15r_initCanvas(canvas);
 	draw_welcomeScreen(canvas);
-
-
+		
+	buddy_hash = g_hash_table_new (NULL, NULL);
 
 	purple_signal_connect (conv_handle, "received-im-msg", plugin,
 						PURPLE_CALLBACK(notify_new_message_cb), NULL);
@@ -504,6 +519,10 @@ plugin_unload (PurplePlugin *plugin)
 {
 	void *conv_handle;
 
+	if(screen < 0) {
+		return TRUE;
+	}
+	
 	draw_goodbyeScreen(canvas);
 
 	conv_handle = purple_conversations_get_handle ();
@@ -514,10 +533,11 @@ plugin_unload (PurplePlugin *plugin)
 	purple_signal_disconnect (conv_handle, "received-chat-msg", plugin,
 							PURPLE_CALLBACK(notify_chat_nick));
 
-	g_hash_table_destroy (buddy_hash);
 
 	//free(canvas);
 	g15_close_screen(screen);
+	
+	g_hash_table_destroy (buddy_hash);
 
 	return TRUE;
 }
