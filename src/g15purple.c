@@ -74,6 +74,8 @@
 #define MIN_WINDOWS 1
 #define MAX_WINDOWS 3
 
+#define SET_PROTO_ICON_IF(PROTO, ICON) ((strcmp(proto,PROTO) == 0) ? ICON ## _bits : NULL)
+
 static GHashTable *buddy_hash;
 
 
@@ -167,26 +169,31 @@ void set_protocol (PurpleBuddy *buddy)
 {
 	char *proto = buddy->account->protocol_id;
 
-		// Built in protocols
 		if (strcmp(proto,"prpl-aim") == 0) proto_icon = aim;
+		else if (strcmp(proto,"prpl-bigbrownchunx-facebookim") == 0) proto_icon = facebook;
+		else if (strcmp(proto,"prpl-bigbrownchunx-skype") == 0) proto_icon = skype;
 		else if (strcmp(proto,"prpl-bonjour") == 0) proto_icon = bonjour;
+		else if (strcmp(proto,"prpl-facebook") == 0) proto_icon = facebook;
 		else if (strcmp(proto,"prpl-gg") == 0) proto_icon = gadu;
+		else if (strcmp(proto,"prpl-hangouts") == 0) proto_icon = hangouts;
 		else if (strcmp(proto,"prpl-icq") == 0) proto_icon = icq;
 		else if (strcmp(proto,"prpl-irc") == 0) proto_icon = irc;
 		else if (strcmp(proto,"prpl-jabber") == 0) proto_icon = jabber;
 		else if (strcmp(proto,"prpl-meanwhile") == 0) proto_icon = meanwhile;
 		else if (strcmp(proto,"prpl-msn") == 0) proto_icon = msn;
 		else if (strcmp(proto,"prpl-myspace") == 0) proto_icon = myspace;
+		else if (strcmp(proto,"prpl-mxit") == 0) proto_icon = mxit;
+		else if (strcmp(proto,"prpl-napster") == 0) proto_icon = napster;
 		else if (strcmp(proto,"prpl-novell") == 0) proto_icon = novell;
 		else if (strcmp(proto,"prpl-qq") == 0) proto_icon = qq;
+		else if (strcmp(proto,"prpl-seishun-steam") == 0) proto_icon = steam;
 		else if (strcmp(proto,"prpl-silc") == 0) proto_icon = silc;
 		else if (strcmp(proto,"prpl-simple") == 0) proto_icon = simple;
+		else if (strcmp(proto,"prpl-sipe") == 0) proto_icon = sipe;
+		else if (strcmp(proto,"prpl-steam-mobile") == 0) proto_icon = steam;
+		else if (strcmp(proto,"prpl-webqq") == 0) proto_icon = qq;
 		else if (strcmp(proto,"prpl-yahoo") == 0) proto_icon = yahoo;
 		else if (strcmp(proto,"prpl-zephyr") == 0) proto_icon = zephyr;
-	
-		// Other protocols
-		else if (strcmp(proto,"prpl-bigbrownchunx-facebookim") == 0) proto_icon = facebook;
-		else if (strcmp(proto,"prpl-bigbrownchunx-skype") == 0) proto_icon = skype;
 		
 		// Everything else
 		else proto_icon = unknown;
