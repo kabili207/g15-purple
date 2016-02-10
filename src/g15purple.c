@@ -396,12 +396,10 @@ notify_msg_sent (PurpleAccount *account,
 	PurpleBuddy *buddy = purple_find_buddy (account, sender);
 	if (!buddy)
 		return;
-purple_debug_info (PLUGIN_ID, "g15purple(), notify: 1\n");
 	set_protocol(buddy);
 
 	char *title;
 
-purple_debug_info (PLUGIN_ID, "g15purple(), notify: 2\n");
 	if(purple_prefs_get_bool("/plugins/core/g15purple/text_size")) {
 
 		textSize = G15_TEXT_SMALL;
@@ -410,15 +408,12 @@ purple_debug_info (PLUGIN_ID, "g15purple(), notify: 2\n");
 		textSize = G15_TEXT_MED;
 		title = truncate_escape_string(best_name(buddy), 17);
 	}
-purple_debug_info (PLUGIN_ID, "g15purple(), notify: 3\n");
 
 	char *body = purple_markup_strip_html (message);
-purple_debug_info (PLUGIN_ID, "g15purple(), notify: 4\n");
 
 	g15title = (char*)title;
 	g15message = (char*)body;
 	get_time(&currTime);
-purple_debug_info (PLUGIN_ID, "g15purple(), notify: 5\n");
 
 
 	purple_debug_info (PLUGIN_ID, "g15purple(), new: "
@@ -426,7 +421,6 @@ purple_debug_info (PLUGIN_ID, "g15purple(), notify: 5\n");
 					 title, body, best_name(buddy));
 
 	draw_messageWindow(canvas);
-purple_debug_info (PLUGIN_ID, "g15purple(), notify: 6\n");
 
 	canvas->mode_xor = 0;
 
